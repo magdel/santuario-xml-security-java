@@ -126,6 +126,19 @@ public class ECKeyValue extends Signature11ElementProxy implements KeyValueConte
             1
     );
 
+    /* Supported curve Gost3410_2001_CryptoPro_A */
+    private static final Curve Gost3410_2001_CryptoPro_A = initializeCurve(
+        "Gost3410-2001-CryptoPro-A",
+        "1.2.643.2.2.35.1",
+        "115792089237316195423570985008687907853269984665640564039457584007913129639319",
+        "115792089237316195423570985008687907853269984665640564039457584007913129639316",
+        "166",
+        "1",
+        "64033881142927202683649881450433473985931760268884941288852745803908878638612",
+        "115792089237316195423570985008687907853073762908499243225378155805079068850323",
+        1
+    );
+
     private static Curve initializeCurve(String name, String oid,
             String sfield, String a, String b,
             String x, String y, String n, int h) {
@@ -305,7 +318,9 @@ public class ECKeyValue extends Signature11ElementProxy implements KeyValueConte
             match = BRAINPOOLP384R1;
         } else if (matchCurve(params, BRAINPOOLP512R1)) {
             match = BRAINPOOLP512R1;
-        }else {
+        } else if (matchCurve(params, Gost3410_2001_CryptoPro_A)) {
+            match = Gost3410_2001_CryptoPro_A;
+        } else {
             return null;
         }
         return match.getObjectId();
