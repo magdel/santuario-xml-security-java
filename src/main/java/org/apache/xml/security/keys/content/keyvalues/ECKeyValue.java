@@ -130,14 +130,15 @@ public class ECKeyValue extends Signature11ElementProxy implements KeyValueConte
     private static final Curve Gost3410_2001_CryptoPro_A = initializeCurve(
         "Gost3410-2001-CryptoPro-A",
         "1.2.643.2.2.35.1",
-        "115792089237316195423570985008687907853269984665640564039457584007913129639319",
-        "115792089237316195423570985008687907853269984665640564039457584007913129639316",
-        "166",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD97",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD94",
+        "A6",
         "1",
-        "64033881142927202683649881450433473985931760268884941288852745803908878638612",
-        "115792089237316195423570985008687907853073762908499243225378155805079068850323",
+        "8D91E471E0989CDA27DF505A453F2B7635294F2DDF23E3B122ACC99C9E9F1E14",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6C611070995AD10045841B09B761B893",
         1
     );
+
 
     private static Curve initializeCurve(String name, String oid,
             String sfield, String a, String b,
@@ -328,11 +329,21 @@ public class ECKeyValue extends Signature11ElementProxy implements KeyValueConte
 
     private static boolean matchCurve(ECParameterSpec params, Curve curve) {
         int fieldSize = params.getCurve().getField().getFieldSize();
-        return curve.getCurve().getField().getFieldSize() == fieldSize
-            && curve.getCurve().equals(params.getCurve())
-            && curve.getGenerator().equals(params.getGenerator())
-            && curve.getOrder().equals(params.getOrder())
-            && curve.getCofactor() == params.getCofactor();
+        boolean fb = curve.getCurve().getField().getFieldSize() == fieldSize;
+        boolean ce = curve.getCurve().equals(params.getCurve());
+        boolean ge = curve.getGenerator().equals(params.getGenerator());
+        boolean oe = curve.getOrder().equals(params.getOrder());
+        boolean coe = curve.getCofactor() == params.getCofactor();
+        System.out.println(fb);
+        System.out.println(ce);
+        System.out.println(ge);
+        System.out.println(oe);
+        System.out.println(coe);
+        return fb
+            && ce
+            && ge
+            && oe
+            && coe;
     }
 
     private static ECPoint decodePoint(byte[] data, EllipticCurve curve)
